@@ -8,8 +8,8 @@ type Fruit = {
 const LOG_QUERIES = false
 describe('test client', () => {
   const client = new SurrealRESTClient('http://127.0.0.1:8000', {
-      namespace:'base',
-      database: 'base',
+      ns:'base',
+      db: 'base',
       user: 'root',
       pass: 'root'
     })

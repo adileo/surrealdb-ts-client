@@ -19,8 +19,8 @@ import SurrealRESTClient, { SDBType } from "@adileo/surrealdb-ts-client"
 
 const client = new SurrealRESTClient('http://127.0.0.1:8000', {
     // Default values, you can override them on each request
-    namespace:'base',
-    database: 'base',
+    ns:'base',
+    db: 'base',
     user: 'root',
     pass: 'root',
     //token: 'JWTTOKEN',

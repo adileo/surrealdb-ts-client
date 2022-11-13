@@ -75,19 +75,26 @@ RT extends "lastStatementSingle" ? T :
 RT extends "raw" ? StatementResponse<T>[] :
 RT extends "lastStatementArray" ? T[] : never;
 
+type SurrealRESTClientConstructor = {
+    ns?: string
+    db?: string
+    user?: string
+    pass?: string
+    token?: string
+}
 export class SurrealRESTClient {
     endpoint: string
-    ns: string
-    database: string
+    ns?: string
+    db?: string
 
-    user: string
-    pass: string
-    token: string
+    user?: string
+    pass?: string
+    token?: string
 
-    public constructor(endpoint: string, { namespace, database, user, pass, token }: any) {
+    public constructor(endpoint: string, { ns, db, user, pass, token }: SurrealRESTClientConstructor) {
         this.endpoint = endpoint
-        this.ns = namespace
-        this.database = database
+        this.ns = ns
+        this.db = db
         this.user = user
         this.pass = pass
         this.token = token
@@ -105,8 +112,8 @@ export class SurrealRESTClient {
             headers: {
                 Accept: 'application/json',
                 Authorization: this.getAuthorization(opts),
-                NS: opts.ns ? opts.ns : this.ns,
-                DB: opts.db ? opts.db : this.database,
+                NS: (opts.ns ? opts.ns : this.ns) || '',
+                DB: (opts.db ? opts.db : this.db) || '',
             }
         })
         return await this.parseResponse<T>(response, returnType) as QueryResult<T,RR>
