@@ -48,6 +48,9 @@ await client.createOrSet<Fruit>('fruit:12345', {
 await client.findById<Fruit>('fruit:12345')
 // {id: 'fruit:12345', name: 'pear'}
 
+// Delete by id
+await client.deleteById('fruit:12345')
+
 // Execute SurrealQL queries with params
 await client.queryRaw<Fruit>('SELECT * FROM fruit WHERE name = $fruitName', {
     fruitName: "apple"

@@ -158,6 +158,16 @@ export class SurrealRESTClient {
         }
     }
 
+    public async deleteById<T>(id: string, opts: SurrealRESTClientOptions = {}): Promise<T> {
+        const {thing, params, isThing} = this.tableOrThing(id)
+        const sql = `DELETE ${thing};`
+        if(isThing){
+            return this.queryLast<T>(sql, {...params}, {...opts})
+        }else{
+           throw new Error("Wrong ID")
+        }
+    }
+
     // Set field (MERGE Mode) into existing record/s
     public async mergeSet<T>(tableOrKey: string, data: any, opts: SurrealRESTClientOptions = {}) {
         const {thing, params, isThing} = this.tableOrThing(tableOrKey)
