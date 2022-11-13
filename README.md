@@ -15,7 +15,7 @@ Please note that this client SDK doesn't support real-time connections (Websocke
 
 ```typescript
 
-import SurrealRESTClient from "@adileo/surrealdb-ts-client"
+import SurrealRESTClient, { SDBType } from "@adileo/surrealdb-ts-client"
 
 const client = new SurrealRESTClient('http://127.0.0.1:8000', {
     // Default values, you can override them on each request
