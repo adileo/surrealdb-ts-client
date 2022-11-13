@@ -1,4 +1,7 @@
-import fetch from 'cross-fetch';
+import { context, Response } from 'fetch-h2'
+const ctx = context({
+    userAgent: 'surrealdb-ts-client'
+});
 export class SurrealType {
     type: string
     value: any
@@ -106,7 +109,7 @@ export class SurrealRESTClient {
         const query = pre + sql
         if(opts.logQuery)
             console.log(query)
-        const response = await fetch(this.endpoint + "/sql", {
+        const response = await ctx.fetch(this.endpoint + "/sql", {
             method: 'POST',
             body: query,
             headers: {

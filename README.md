@@ -1,15 +1,15 @@
 # SurrealDB JS/Typescript Client SDK
 
-Unofficial SurrealDB client based on the REST API of SurrealDB
+Unofficial Node.js SurrealDB client based on the REST API of SurrealDB
 
 Advantages over Official SurrealDB Client (as of Nov. 2022):
 
 * Stateless: Each request can be authenticated with a different user, namespace or database (Especially useful for Serverless API Backends)
-* Browser and Node.js Support (ES5)
-* Only 1 Dependency: Cross-Fetch
+* HTTP2 Support
+* Only 1 Dependency: fetch-h2
 * Typescript Support
 
-Please note that this client SDK doesn't support real-time connections (Websocket) like the official one.
+Please note that this client SDK doesn't support real-time connections (Websocket) like the official one, this SDK is meant to be used mostly server-side.
 
 ## How To
 

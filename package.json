@@ -1,6 +1,6 @@
 {
   "name": "@adileo/surrealdb-ts-client",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -19,6 +19,6 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "cross-fetch": "^3.1.5"
+    "fetch-h2": "^3.0.2"
   }
 }
