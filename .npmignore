@@ -2,3 +2,5 @@ src
 jest.config.js
 tsconfig.js
 *.test.*
+*.log
+logs
