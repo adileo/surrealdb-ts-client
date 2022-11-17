@@ -7,6 +7,7 @@ export type SurrealRESTClientConstructor = {
 
     fetcher?: (url: string, params: any) => any
     logger?: any
+    synchronize?: boolean
 }
 
 export type ReturnType = "lastStatementSingle" | "lastStatementArray" | "raw"
@@ -83,6 +84,9 @@ export type CollectionQueryParamsCreateOrSet<T> = CollectionQueryParamsBase & {
     data: RecordCreate & Partial<T>
 }
 
+export type CollectionQueryParamsFindById<T> = CollectionQueryParamsBase & {
+    select?: SelectFilter<T>
+}
 export type CollectionQueryParamsFindMany<T> = CollectionQueryParamsBase & {
     select?: SelectFilter<T>
     matching?: MatchingClause<T>
@@ -109,3 +113,56 @@ export type CollectionQueryParamsUpdate<T> = CollectionQueryParamsBase & {
 }
 
 export type LogType = "debug" | "info" | "warn" | "error" | "fatal"
+
+export type PermissionsMetatada = {
+    select?: string
+    create?: string
+    update?: string
+    delete?: string
+} | "FULL" | "NONE"
+
+export type EntityMetadata = {
+    name?: string
+    drop?: boolean // Drop all writes to the table great for Pre-defined aggregate analytics where you have an aggregate VIEW
+    schemafull?: boolean
+    as?: string
+    permissions?: PermissionsMetatada
+    synchronize?: boolean
+}
+type SurrealDBTypeRecord =`record(${string})`
+type SurrealDBTypeGeometry =`geometry(${string})`
+export type SurrealDBType = "any" | "array" | "bool" | "datetime" | "decimal" | "duration" | "float" | "int" | "number" | "object" | "string" | SurrealDBTypeRecord | SurrealDBTypeGeometry
+
+export type FieldMetadata = {
+    name?: string
+    required?: boolean,
+    surrealType?: SurrealDBType,
+    value?: string,
+    assert?: string,
+    permissions?: PermissionsMetatada
+    detectedType?: string | undefined
+}
+
+export type IndexKeysMetadata = string[]
+export type IndexConfigMetadata = {
+    name?: string
+    unique?: boolean
+} 
+
+export type SelectAsMetadata = {
+    definition: string
+    
+}
+
+export type IndexMetadata = {
+    keys:  IndexKeysMetadata
+    config: IndexConfigMetadata | undefined
+}
+
+export type Logger =  (type: LogType, log: any) => void
+
+export type Edge = {
+    id: string
+    in: string
+    out: string
+} 

@@ -1,7 +1,8 @@
 import { context, Response } from 'fetch-h2'
+import Collection from './collection';
 import Serializer from './serializer';
 
-import { SurrealRESTClientConstructor, ReturnType, SurrealRESTClientOptions, QueryResult, StatementResponse, LogType } from './types';
+import { SurrealRESTClientConstructor, ReturnType, SurrealRESTClientOptions, QueryResult, StatementResponse, LogType, Edge } from './types';
 
 class SurrealRESTClient {
     endpoint: string
@@ -32,6 +33,7 @@ class SurrealRESTClient {
         }
     }
     public async query<T, RR extends ReturnType>(sql: string, variables: any, returnType: ReturnType, opts: SurrealRESTClientOptions = {}): Promise<QueryResult<T,RR>>  {
+        // console.log({sql, variables})
         const pre = Object.entries(variables).map(([k, v]) => {
             return "LET $" + k + " = " + Serializer.serialize(v) + ";\n";
         }).join("")
@@ -58,7 +60,7 @@ class SurrealRESTClient {
     public async queryLastArray<T>(sql: string, variables: any, opts: SurrealRESTClientOptions = {}) {
         return this.query<T, "lastStatementArray">(sql, variables, "lastStatementArray", opts)
     }    
-
+  
   
     
     private async parseResponse<T>(response: Response, returnType: ReturnType): Promise<StatementResponse<T>[] | T | T[] | null> {
@@ -101,6 +103,43 @@ class SurrealRESTClient {
             const authorization = Buffer.from(username + ":" + password)
             return 'Basic ' + authorization.toString('base64')
         }
+    }
+
+    public async collection<T>(modelClass: new () => T, opts: SurrealRESTClientOptions = {}){
+        const c = new Collection(this.logger, modelClass, this, opts)
+        await c.synchronize()
+        return c
+    } 
+
+    private isString(str: any){
+        return typeof str === 'string' || str instanceof String
+    }
+
+    public async relate<T>(from: any, edge: any, to: any, data?: T, opts: SurrealRESTClientOptions = {}){
+        let fromId, toId
+        if(this.isString(from) && Serializer.ensureRecordKey(from)){
+            fromId = from
+        }else{
+            if(this.isString(from.id) && Serializer.ensureRecordKey(from.id)){
+                fromId = from.id
+            }else{
+                throw "The 'from' argument should be either an ID or an object with an id field";
+            }
+        }
+        if(this.isString(to) && Serializer.ensureRecordKey(to)){
+            toId = to
+        }else{
+            if(this.isString(to.id) && Serializer.ensureRecordKey(to.id)){
+                toId = to.id
+            }else{
+                throw "The 'to' argument should be either an ID or an object with an id field";
+            }
+        }
+        return this.query<T & Edge, "lastStatementSingle">(`RELATE $fromId -> ${edge} -> $toId CONTENT $data`, {
+            fromId,
+            toId,
+            data: (data || {})
+        }, "lastStatementSingle", opts)
     }
 
 }

@@ -1,6 +1,6 @@
 {
   "name": "@adileo/surrealdb-ts-client",
-  "version": "2.0.2",
+  "version": "2.1.2",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -22,7 +22,8 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "fetch-h2": "^3.0.2"
+    "fetch-h2": "^3.0.2",
+    "reflect-metadata": "^0.1.13"
   },
   "repository": {
     "type": "git",
