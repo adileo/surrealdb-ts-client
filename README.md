@@ -25,6 +25,19 @@ Please note that this client SDK doesn't support yet real-time connections over 
 
 ## How To
 
+### Installation
+```
+npm i @adileo/surrealdb-ts-client
+```
+
+You need to install also reflect-metadata shim:
+```
+npm i reflect-metadata
+```
+and import it somewhere in the global place of your app (for example in app.ts):
+```
+import "reflect-metadata"
+```
 
 ### ORM
 
