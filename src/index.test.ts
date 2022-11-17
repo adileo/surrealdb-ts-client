@@ -21,7 +21,6 @@ const client = new SurrealRESTClient('http://127.0.0.1:8000', {
 @Entity({
     name: "fruit",
     schemafull: true,
-    synchronize: true
 })
 class Fruit {
     id!: string;
@@ -36,9 +35,7 @@ class Fruit {
     createdAt?: Date;
 }
 
-@Entity({
-    synchronize: true
-})
+@Entity()
 // @Index(["nickname"])
 class Animal {
     id!: string
@@ -67,8 +64,10 @@ class Animal {
 
 beforeAll(async () => {
     fruits = await client.collection(Fruit)
+    await fruits.synchronize()
     await fruits.delete()
     animals = await client.collection(Animal)
+    await animals.synchronize()
     await animals.delete()
 });
 

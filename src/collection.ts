@@ -47,9 +47,6 @@ class Collection<T> {
         return {...this.opts,...(overrideOpts||{})};
     }
     public async synchronize(){
-        if(!(this.entity && this.entity.synchronize)){
-            return
-        }
         this.logger("debug", "SYNCHRONIZE ENTITY "+ this.table)
         // this.logger("info", this.buildTableStatement())
         // this.logger("info", this.buildFieldStatements())

@@ -7,7 +7,6 @@ export type SurrealRESTClientConstructor = {
 
     fetcher?: (url: string, params: any) => any
     logger?: any
-    synchronize?: boolean
 }
 
 export type ReturnType = "lastStatementSingle" | "lastStatementArray" | "raw"
@@ -127,7 +126,6 @@ export type EntityMetadata = {
     schemafull?: boolean
     as?: string
     permissions?: PermissionsMetatada
-    synchronize?: boolean
 }
 type SurrealDBTypeRecord =`record(${string})`
 type SurrealDBTypeGeometry =`geometry(${string})`

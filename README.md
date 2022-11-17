@@ -42,9 +42,7 @@ const client = new SurrealRESTClient('http://127.0.0.1:8000', {
     //logger: pino
 })
 
-@Entity({
-    synchronize: true,
-})
+@Entity()
 class Fruit {
     id!: string;
 
@@ -60,6 +58,7 @@ class Fruit {
 
 
 const fruits  = await client.collection(Fruit)
+await fruits.synchronize() // Run this if you want to automatically sync the DB schema
 
 // Insert record
 await fruits.create({
@@ -109,9 +108,7 @@ await fruits.delete({
 ### Relationship
 ```typescript
 
-@Entity({
-    synchronize: true
-})
+@Entity()
 // @Index(["id", "nickname"]) - create indexes / unique indexes
 class Animal {
     id!: string
@@ -138,6 +135,7 @@ class Animal {
     eatsRed!: Fruit[]
 }
 const animals = await client.collection(Animal)
+await animals.synchronize()
 
 const banana = await fruits.create({
     data: {

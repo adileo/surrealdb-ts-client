@@ -105,11 +105,9 @@ class SurrealRESTClient {
         }
     }
 
-    public async collection<T>(modelClass: new () => T, opts: SurrealRESTClientOptions = {}){
-        const c = new Collection(this.logger, modelClass, this, opts)
-        await c.synchronize()
-        return c
-    } 
+    public collection<T>(modelClass: new () => T, opts: SurrealRESTClientOptions = {}){
+        return new Collection(this.logger, modelClass, this, opts)
+    }
 
     private isString(str: any){
         return typeof str === 'string' || str instanceof String
