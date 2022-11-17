@@ -1,8 +1,8 @@
 import SurrealRESTClient from "."
 import { getEntity, getFields, getIndexes, getSelectAs } from "./decorators"
 import Serializer from "./serializer"
+import { traverse } from "./traverser"
 import { CollectionQueryParamsCreateOrSet, CollectionQueryParamsDelete, CollectionQueryParamsFindById, CollectionQueryParamsFindMany, CollectionQueryParamsUpdate, EntityMetadata, FieldMetadata, IndexMetadata, Logger, MatchingClause, PermissionsMetatada, SelectAsMetadata, SurrealRESTClientOptions } from "./types"
-
 
 class Collection<T> {
     table: string
@@ -205,11 +205,13 @@ class Collection<T> {
         const promsise = await this.client.queryLastArray<T>(sql, {data}, this.getOpts(opts))
         return promsise.map(v => this.buildObject(v))
     }
-
+    
     private buildObject(data: any): T{
         const obj: T = new this.modelClass()
         Object.assign(obj as any, data)
-        return obj
+        // TODO: optimize traverse by skipping fields based on schema
+        // Remap ISO string dates to new Date()
+        return traverse(obj, true)
     }
 }
 

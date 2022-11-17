@@ -205,6 +205,21 @@ describe('test client', () => {
         expect(hungryMonkey.eatsRed[0].name).toBe("Red Apple");
         expect(hungryMonkey.worstEnemy!.name).toBe("Red Snake");
     });
+
+    test('parse dates', async () => {
+        const creationDate = new Date()
+        const banana = await fruits.create({
+            data: {
+                name: "Cherry",
+                createdAt: creationDate
+            }
+        })
+        
+        const fetched = await fruits.findById(banana.id)
+
+        expect(fetched?.createdAt instanceof Date).toBe(true)
+        expect((fetched?.createdAt as Date).toISOString()).toBe(creationDate.toISOString())
+    });
     // test('test select with related', async () => {
     //   const inserted1 = await fruits.create({
     //     data: {
