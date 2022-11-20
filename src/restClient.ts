@@ -74,8 +74,10 @@ class SurrealRESTClient {
         if (returnType === "raw")
             return resp
         if (resp.length > 0) {
-            if(resp[0].status === "ERR"){
-                throw resp[0]
+            for (let r of resp){
+                if(r.status === "ERR"){
+                    throw r
+                }
             }
             if(returnType === "lastStatementSingle" && resp[resp.length-1].result !== null){
                 if(resp[resp.length-1].result!.length > 0){
